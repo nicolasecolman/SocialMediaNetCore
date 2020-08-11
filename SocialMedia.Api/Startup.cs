@@ -1,16 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Infrastructure.Repositories;
 
@@ -30,7 +23,7 @@ namespace SocialMedia.Api
         {
             services.AddControllers();
 
-            services.AddDbContext<Infrastructure.Data.SocialMediaContext>(options => 
+            services.AddDbContext<Infrastructure.Data.SocialMediaContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("SocialMedia")));
 
             services.AddTransient<IPostRepository, PostRepository>();
