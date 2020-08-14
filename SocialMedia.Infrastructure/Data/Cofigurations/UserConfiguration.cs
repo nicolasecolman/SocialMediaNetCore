@@ -40,6 +40,9 @@ namespace SocialMedia.Infrastructure.Data.Cofigurations
                 .HasColumnName("Telefono")
                 .HasMaxLength(10)
                 .IsUnicode(false);
+
+            builder.Property(e => e.IsActive)
+                .HasColumnName("Activo");
         }
     }
 }
