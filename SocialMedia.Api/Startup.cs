@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Core.Services;
+using SocialMedia.Infrastructure.Interfaces;
 using SocialMedia.Infrastructure.Repositories;
 using System;
 
@@ -38,6 +39,7 @@ namespace SocialMedia.Api
 
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             services.AddMvc()
                 .AddFluentValidation(options =>
