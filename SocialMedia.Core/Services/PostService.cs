@@ -40,6 +40,11 @@ namespace SocialMedia.Core.Services
                 throw new Exception("User does not exist!");
             }
 
+            if (post.Description.Contains("Sexo"))
+            {
+                throw new Exception("Content not allowed!");
+            }
+
             await _postRepository.InsertPost(post);
         }
 
