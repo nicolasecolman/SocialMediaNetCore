@@ -1,6 +1,5 @@
 ﻿using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
-using SocialMedia.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,9 +8,9 @@ namespace SocialMedia.Core.Services
 {
     public class PostService : IPostService
     {
-        private readonly IPostRepository _postRepository;
-        private readonly IUserRepository _userRepository;
-        public PostService(IPostRepository postRepository, IUserRepository userRepository)
+        private readonly IRepository<Post> _postRepository;
+        private readonly IRepository<User> _userRepository;
+        public PostService(IRepository<Post> postRepository, IRepository<User> userRepository)
         {
             _postRepository = postRepository;
             _userRepository = userRepository;
@@ -19,22 +18,23 @@ namespace SocialMedia.Core.Services
 
         public async Task<bool> DeletePost(int id)
         {
-            return await _postRepository.DeletePost(id);
+            await _postRepository.Delete(id);
+            return true;
         }
 
         public async Task<Post> GetPost(int id)
         {
-            return await _postRepository.GetPost(id);
+            return await _postRepository.GetById(id);
         }
 
         public async Task<IEnumerable<Post>> GetPosts()
         {
-            return await _postRepository.GetPosts();
+            return await _postRepository.GetAll();
         }
 
         public async Task InsertPost(Post post)
         {
-            var user = await _userRepository.GetUser(post.UserId);
+            var user = await _userRepository.GetById(post.UserId);
             if (user == null)
             {
                 throw new Exception("User does not exist!");
@@ -45,12 +45,18 @@ namespace SocialMedia.Core.Services
                 throw new Exception("Content not allowed!");
             }
 
-            await _postRepository.InsertPost(post);
+            await _postRepository.Add(post);
         }
 
         public async Task<bool> UpdatePost(Post post)
         {
-            return await _postRepository.UpdatePost(post);
+            var originalPost = await GetPost(post.Id);
+            originalPost.Description = post.Description;
+            originalPost.Date = post.Date;
+            originalPost.Image = post.Image;
+
+            await _postRepository.Update(originalPost);
+            return true;
         }
     }
 }
