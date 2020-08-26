@@ -40,6 +40,8 @@ namespace SocialMedia.Api
 
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
             services.AddMvc()
                 .AddFluentValidation(options =>
                 {
