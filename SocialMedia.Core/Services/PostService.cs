@@ -2,6 +2,7 @@
 using SocialMedia.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SocialMedia.Core.Services
@@ -43,6 +44,16 @@ namespace SocialMedia.Core.Services
             if (post.Description.Contains("Sexo"))
             {
                 throw new Exception("Content not allowed!");
+            }
+
+            var userPosts = await _unitOfWork.PostRepository.GetPostsByUser(post.UserId);
+            if (userPosts.Count() > 0 && userPosts.Count() < 10)
+            {
+                var lastPost = userPosts.OrderByDescending(p => p.Date).FirstOrDefault();
+                if (lastPost != null && (DateTime.Now - lastPost.Date).TotalDays < 7)
+                {
+                    throw new Exception("New users cannot create more than one post per week.");
+                }
             }
 
             await _unitOfWork.PostRepository.Add(post);
