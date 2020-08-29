@@ -18,6 +18,7 @@ namespace SocialMedia.Core.Services
         public async Task<bool> DeletePost(int id)
         {
             await _unitOfWork.PostRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
             return true;
         }
 
@@ -45,6 +46,7 @@ namespace SocialMedia.Core.Services
             }
 
             await _unitOfWork.PostRepository.Add(post);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<bool> UpdatePost(Post post)
@@ -54,7 +56,9 @@ namespace SocialMedia.Core.Services
             originalPost.Date = post.Date;
             originalPost.Image = post.Image;
 
-            await _unitOfWork.PostRepository.Update(originalPost);
+            _unitOfWork.PostRepository.Update(originalPost);
+            await _unitOfWork.SaveChangesAsync();
+
             return true;
         }
     }

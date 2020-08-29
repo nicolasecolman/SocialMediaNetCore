@@ -12,7 +12,7 @@ namespace SocialMedia.Core.Interfaces
 
         Task Add(T entity);
 
-        Task Update(T entity);
+        void Update(T entity);
 
         Task Delete(int id);
 

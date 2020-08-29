@@ -18,15 +18,17 @@ namespace SocialMedia.Infrastructure.Repositories
         }
         public async Task Add(T entity)
         {
-            _entities.Add(entity);
-            await _context.SaveChangesAsync();
+            await _entities.AddAsync(entity);
+        }
+        public void Update(T entity)
+        {
+            _entities.Update(entity);
         }
 
         public async Task Delete(int id)
         {
             T entity = await GetById(id);
             _context.Remove(entity);
-            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> GetAll()
@@ -39,10 +41,5 @@ namespace SocialMedia.Infrastructure.Repositories
             return await _entities.FindAsync(id);
         }
 
-        public async Task Update(T entity)
-        {
-            _entities.Update(entity);
-            await _context.SaveChangesAsync();
-        }
     }
 }
