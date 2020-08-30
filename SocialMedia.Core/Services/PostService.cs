@@ -1,4 +1,5 @@
 ﻿using SocialMedia.Core.Entities;
+using SocialMedia.Core.Exceptions;
 using SocialMedia.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -38,12 +39,12 @@ namespace SocialMedia.Core.Services
             var user = await _unitOfWork.UserRepository.GetById(post.UserId);
             if (user == null)
             {
-                throw new Exception("User does not exist!");
+                throw new BusinessException("User does not exist!");
             }
 
             if (post.Description.Contains("Sexo"))
             {
-                throw new Exception("Content not allowed!");
+                throw new BusinessException("Content not allowed!");
             }
 
             var userPosts = await _unitOfWork.PostRepository.GetPostsByUser(post.UserId);
@@ -52,7 +53,7 @@ namespace SocialMedia.Core.Services
                 var lastPost = userPosts.OrderByDescending(p => p.Date).FirstOrDefault();
                 if (lastPost != null && (DateTime.Now - lastPost.Date).TotalDays < 7)
                 {
-                    throw new Exception("New users cannot create more than one post per week.");
+                    throw new BusinessException("New users cannot create more than one post per week.");
                 }
             }
 
