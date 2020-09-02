@@ -31,7 +31,7 @@ namespace SocialMedia.Api
             services
                 .AddControllers(options =>
                 {
-                    options.Filters.Add<GlobalExceptionFilter>(); 
+                    options.Filters.Add<GlobalExceptionFilter>();
                 })
                 .AddNewtonsoftJson(options =>
                 {

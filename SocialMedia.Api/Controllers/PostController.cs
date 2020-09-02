@@ -4,6 +4,7 @@ using SocialMedia.Api.Responses;
 using SocialMedia.Core.DTOs;
 using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
+using SocialMedia.Core.QueryFilters;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -21,9 +22,9 @@ namespace SocialMedia.Api.Controllers
             _postService = postService;
             _mapper = mapper;
         }
-        public async Task<IActionResult> GetPosts()
+        public async Task<IActionResult> GetPosts([FromQuery]PostQueryFilter filters)
         {
-            var posts = await _postService.GetPosts();
+            var posts = await _postService.GetPosts(filters);
             var postsDto = _mapper.Map<IEnumerable<PostDto>>(posts);
             var response = new ApiResponse<IEnumerable<PostDto>>(postsDto);
             return Ok(response);
