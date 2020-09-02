@@ -6,6 +6,7 @@ using SocialMedia.Core.Entities;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Core.QueryFilters;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace SocialMedia.Api.Controllers
@@ -22,6 +23,9 @@ namespace SocialMedia.Api.Controllers
             _postService = postService;
             _mapper = mapper;
         }
+
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetPosts([FromQuery]PostQueryFilter filters)
         {
             var posts = await _postService.GetPosts(filters);
