@@ -8,6 +8,6 @@ namespace SocialMedia.Core.QueryFilters
         public DateTime? Date { get; set; }
         public string Description { get; set; }
         public int PageNumber { get; set; }
-        public int pageSize { get; set; }
+        public int PageSize { get; set; }
     }
 }

@@ -1,10 +1,11 @@
-﻿using SocialMedia.Core.CustomEntities;
+﻿using Microsoft.Extensions.Options;
+using SocialMedia.Core.CustomEntities;
 using SocialMedia.Core.Entities;
 using SocialMedia.Core.Exceptions;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Core.QueryFilters;
+using SocialMedia.Infrastructure.Options;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,9 +15,11 @@ namespace SocialMedia.Core.Services
     {
 
         private readonly IUnitOfWork _unitOfWork;
-        public PostService(IUnitOfWork unitOfWork)
+        private readonly PaginationOptions _paginationOptions;
+        public PostService(IUnitOfWork unitOfWork, IOptions<PaginationOptions> options)
         {
             _unitOfWork = unitOfWork;
+            _paginationOptions = options.Value;
         }
 
         public async Task<bool> DeletePost(int id)
@@ -33,6 +36,9 @@ namespace SocialMedia.Core.Services
 
         public async Task<PagedList<Post>> GetPosts(PostQueryFilter filters)
         {
+            filters.PageNumber = filters.PageNumber == 0 ? _paginationOptions.DefaultPageNumber : filters.PageNumber;
+            filters.PageSize = filters.PageSize == 0 ? _paginationOptions.DefaultPageSize : filters.PageSize;
+
             var posts = await _unitOfWork.PostRepository.GetAll();
 
             if (filters.UserId != null)
@@ -50,7 +56,7 @@ namespace SocialMedia.Core.Services
                 posts = posts.Where(p => p.Description.ToLower().Contains(filters.Description.ToLower()));
             }
 
-            var PagedPosts = PagedList<Post>.Create(posts, filters.PageNumber, filters.pageSize);
+            var PagedPosts = PagedList<Post>.Create(posts, filters.PageNumber, filters.PageSize);
 
             return PagedPosts;
         }

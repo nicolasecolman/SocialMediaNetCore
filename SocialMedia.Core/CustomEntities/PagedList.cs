@@ -33,7 +33,7 @@ namespace SocialMedia.Core.CustomEntities
         {
             var count = source.Count();
             var items = source
-                .Skip( (pageNumber - 1) * pageSize)
+                .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
                 .ToList();
 
