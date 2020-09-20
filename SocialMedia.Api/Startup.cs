@@ -55,6 +55,8 @@ namespace SocialMedia.Api
 
             services.AddTransient<IPostService, PostService>();
 
+            services.AddTransient<ISecurityService, SecurityService>();
+
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -117,7 +119,7 @@ namespace SocialMedia.Api
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("../swagger/v1/swagger.json", "Social Media API");
-                //options.RoutePrefix = string.Empty;
+                options.RoutePrefix = string.Empty; //Comentar para IIS
             });
 
             app.UseRouting();
