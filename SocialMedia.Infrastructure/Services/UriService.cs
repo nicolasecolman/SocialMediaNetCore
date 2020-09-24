@@ -1,4 +1,5 @@
 ﻿using SocialMedia.Core.QueryFilters;
+using SocialMedia.Infrastructure.Interfaces;
 using System;
 
 namespace SocialMedia.Infrastructure.Services

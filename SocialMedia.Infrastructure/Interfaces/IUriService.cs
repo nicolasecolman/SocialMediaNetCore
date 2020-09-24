@@ -1,7 +1,7 @@
 ﻿using SocialMedia.Core.QueryFilters;
 using System;
 
-namespace SocialMedia.Infrastructure.Services
+namespace SocialMedia.Infrastructure.Interfaces
 {
     public interface IUriService
     {

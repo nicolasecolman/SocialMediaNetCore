@@ -13,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using SocialMedia.Core.Interfaces;
 using SocialMedia.Core.Services;
 using SocialMedia.Infrastructure.Filters;
+using SocialMedia.Infrastructure.Interfaces;
 using SocialMedia.Infrastructure.Options;
 using SocialMedia.Infrastructure.Repositories;
 using SocialMedia.Infrastructure.Services;
@@ -52,10 +53,12 @@ namespace SocialMedia.Api
                 options.UseSqlServer(Configuration.GetConnectionString("SocialMedia")));
 
             services.Configure<PaginationOptions>(Configuration.GetSection("Pagination"));
+            services.Configure<PasswordOptions>(Configuration.GetSection("PasswordOptions"));
 
             services.AddTransient<IPostService, PostService>();
 
             services.AddTransient<ISecurityService, SecurityService>();
+            services.AddTransient<IPasswordService, PasswordService>();
 
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
 
