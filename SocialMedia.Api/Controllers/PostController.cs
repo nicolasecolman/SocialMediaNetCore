@@ -86,7 +86,7 @@ namespace SocialMedia.Api.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<IActionResult> Put(int id, PostDto postDto)
         {
             var post = _mapper.Map<Post>(postDto);
